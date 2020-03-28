@@ -1,0 +1,95 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.header {
+	color: #636363;
+	text-transform: uppercase; 
+	font-family: 'Raleway', sans-serif;
+	font-size: .75em;
+	font-weight: lighter;
+}
+
+.sub-header {
+	font-family: 'Raleway', sans-serif;
+	margin-top: 10px;
+	font-size: 2em;
+
+}
+
+.button {
+	font-family: 'Raleway', sans-serif;
+	font-weight: bolder;
+	text-transform: uppercase; 
+	border: none;
+	color: white;
+	padding: 5px 10px;
+	background: grey;
+	border-radius: 5px;
+}
+
+.green {
+	background: #579648;
+}
+
+.red {
+	background: #424242;
+}
+
+.users {
+	background: #d6d6d6;
+	width: 80vw;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 20px;
+}
+.users > p {
+	margin: 0;
+	padding: 10px 0px 0px 0px;
+}
+
+.names > p {
+	margin: 0;
+	padding: 10px 0px 0px 0px;
+	font-size: 1.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+	font-weight: bolder;
+}
+
+.names > p:last-child {
+	margin: 0;
+	padding: 10px 0px 10px 0px;
+
+}
+
+.users-header {
+	font-family: 'Raleway', sans-serif;
+	font-weight: lighter;
+	text-transform: uppercase;
+}
+
+.add-button {
+	font-weight: bolder;
+	border:none;
+	color:white;
+	background: #579648;
+	font-size: 1.2em;
+	padding-bottom: 3;
+	padding-top: 0;
+	border-radius: 13px;
+}
+
+.input {
+	font-family: 'Raleway', sans-serif;
+	font-size: 1em;
+	margin-right: 20px;
+}
+
+.form {
+	display: flex;
+	justify-content: center;
+}
+

@@ -1,8 +1,12 @@
 {% extends "base-hand.html" %}
 
 {% block user %}
-<h2>{{ name + "'s Hand" }}</h2>
+<h2 class=sub-header>{{ name + "'s Hand" }}</h2>
 <form action={{ "/" + name + "/next" }} method="post">
-    <input type="submit" value="next round">
+	{% if ready %}
+    	<input class="button green" type="submit" value="ready">
+    {% else %}
+    	<input class="button red" type="submit" value="not ready">
+    {% endif %}
 </form>
 {% endblock %}

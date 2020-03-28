@@ -2,18 +2,21 @@
 
 {% block content %}
 <form action="/admin/next" method="post">
-    <input type="submit" value="next round">
+    <input class="button green" type="submit" value="next round">
 </form>
 
-{% for user in users %}
-    <p>{{ user.name }}</p>
-{% endfor %}
-
-<form action="/admin/add" method="post">
-    <input id="name" type="text" name="name" value="">
-    <input type="submit" value="+">
-</form>
-
-<p>{{ seed.name}} </p>
-<p>{{ seed.value}} </p>
+<div class=users>
+	<p class="users-header"> players </p>
+	<div class=names>
+		{% for user in users %}
+		    <p class=name>{{ user.name }}</p>
+		{% endfor %}
+	</div>
+	<form action="/admin/add" method="post">
+		<div class=form>
+		    <input class=input id="name" type="text" name="name" value="">
+		    <input class="add-button" type="submit" value="+">
+		</div>
+	</form>
+</div>
 {% endblock %}
