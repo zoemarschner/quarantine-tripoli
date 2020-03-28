@@ -3,16 +3,20 @@ from app import app, db
 from app.models import User, Setting
 import random
 
-suits = ["spades", "hearts", "diamonds", "clubs"]
+suits = ['S', 'H', 'D', 'C'] #["spades", "hearts", "diamonds", "clubs"]
 ranks = [
-	"two", "three", "four", "five", "six", 
-	"seven", "eight", "nine", "ten", 
-	"jack", "queen", "king", "ace"
+	'02', '03', '04', '05', '06', '07', '08', '09', '10',
+	'11', '12', '13', '01'
 ]
+# [
+# 	"two", "three", "four", "five", "six", 
+# 	"seven", "eight", "nine", "ten", 
+# 	"jack", "queen", "king", "ace"
+# ]
 
 def full_deck():
 	return [
-		f'{rank} of {suit}' for rank in ranks for suit in suits
+		f'{suit}{rank}' for rank in ranks for suit in suits
 	]
 
 get_seed = lambda: Setting.query.filter(Setting.name=='seed').one()

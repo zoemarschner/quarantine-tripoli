@@ -3,6 +3,6 @@
 {% block content %}
 {% block user %}{% endblock %}
 {% for card in hand %}
-    <p>{{ card }}</p>
+    <img width="100px" src="{{ url_for('static', filename = card + '.png') }}"/>
 {% endfor %}
 {% endblock %}
