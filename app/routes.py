@@ -80,7 +80,7 @@ def user_next(username):
 def extra_hand():
 	count = User.query.count()
 	cards = deal_str_cards(count, get_seed(), count)
-	return render_template('user.html', hand=cards)
+	return render_template('extra-hand.html', hand=cards)
 
 def deal_str_cards(user_id, seed, users):
 	cards = deal(user_id, seed, users)

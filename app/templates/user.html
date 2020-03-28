@@ -1,10 +1,8 @@
-<html>
-	<h1> Quarantine Tripoli </h1>
-	<form action={{ "/" + name + "/next" }} method="post">
-    	<input type="submit" value="next round">
-	</form>
+{% extends "base-hand.html" %}
 
-	{% for card in hand %}
-        <p>{{ card }}</p>
-    {% endfor %}
-<html>
+{% block user %}
+<h2>{{ name + "'s Hand" }}</h2>
+<form action={{ "/" + name + "/next" }} method="post">
+    <input type="submit" value="next round">
+</form>
+{% endblock %}

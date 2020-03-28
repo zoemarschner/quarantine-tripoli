@@ -1,11 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1> Quarantine Tripoli </h1>
-<form action={{ "/" + name + "/next" }} method="post">
-	<input type="submit" value="next round">
-</form>
-
+{% block user %}{% endblock %}
 {% for card in hand %}
     <p>{{ card }}</p>
 {% endfor %}
