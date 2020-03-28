@@ -5,16 +5,15 @@ import random
 
 suits = ["spades", "hearts", "diamonds", "clubs"]
 ranks = [
-    "two", "three", "four", "five", "six", 
-    "seven", "eight", "nine", "ten", 
-    "jack", "queen", "king", "ace"
+	"two", "three", "four", "five", "six", 
+	"seven", "eight", "nine", "ten", 
+	"jack", "queen", "king", "ace"
 ]
 
 def full_deck():
-    return [
-        f'{rank} of {suit}' for rank in ranks for suit in suits
-    ]
-
+	return [
+		f'{rank} of {suit}' for rank in ranks for suit in suits
+	]
 
 get_seed = lambda: Setting.query.filter(Setting.name=='seed').one()
 
@@ -45,6 +44,10 @@ def next_round():
 	new_seed = random.randint(1, 10**5)
 	seed = get_seed()
 	seed.value = new_seed
+
+	for user in User.query.all():
+		user.ready = False
+
 	db.session.commit()
 
 
@@ -59,24 +62,37 @@ def user(username):
 		abort(404)
 
 	cards = deal_str_cards(user_i, get_seed(), User.query.count())
-	return render_template('user.html', hand=cards)
+	return render_template('user.html', hand=cards, name=username)
+
+@app.route('/<username>/next', methods = ['POST'])
+def user_next(username):
+	user_obj = User.query.filter(User.name == username).one()
+	user_obj.ready = True
+	db.session.commit()
+
+	if User.query.filter(User.ready == False).count() == 0:
+		next_round()
+
+	return redirect(url_for('user', username=username))
+
 
 @app.route('/extra')
 def extra_hand():
-	cards = deal_str_cards(user_i, get_seed(), User.query.count())
+	count = User.query.count()
+	cards = deal_str_cards(count, get_seed(), count)
 	return render_template('user.html', hand=cards)
 
-def deal_str_cards(user_id, seed, users)
+def deal_str_cards(user_id, seed, users):
 	cards = deal(user_id, seed, users)
 	all_cards = full_deck()
-	str_cards = [all_cards[i] for i in cards]
+	return [all_cards[i] for i in cards]
 
 def deal(user_id, seed, users):
+	print(seed.value)
 	min_card = 52 - (52 // (users+1)) * (users+1) 
 	cards = list(range(min_card, 52))
 	hand_length = len(cards) // (users+1)
 
-	random.Random(seed).shuffle(cards)
-
-	return cards[user_id*hand_length:user_id+hand_length+1]
+	random.Random(seed.value).shuffle(cards)
+	return cards[user_id*hand_length:user_id*hand_length+hand_length+1]
 
