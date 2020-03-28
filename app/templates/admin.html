@@ -1,0 +1,19 @@
+<html>
+	<h1> Quarantine Tripoli </h1>
+	
+	<form action="/admin/next" method="post">
+	    <input type="submit" value="next round">
+	</form>
+
+	{% for user in users %}
+        <p>{{ user.name }}</p>
+    {% endfor %}
+
+    <form action="/admin/add" method="post">
+	    <input id="name" type="text" name="name" value="">
+	    <input type="submit" value="+">
+	</form>
+
+	<p>{{ seed.name}} </p>
+	<p>{{ seed.value}} </p>
+<html>
