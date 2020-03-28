@@ -2,7 +2,9 @@
 
 {% block content %}
 {% block user %}{% endblock %}
-{% for card in hand %}
-    <img width="100px" src="{{ url_for('static', filename = card + '.png') }}"/>
-{% endfor %}
+<div class=card_container>
+	{% for card in hand %}
+	    <img class=card height="139.61352657px" width="100px" src="{{ url_for('static', filename = card + '.png') }}"/>
+	{% endfor %}
+</div>
 {% endblock %}
