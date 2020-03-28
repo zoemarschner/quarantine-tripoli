@@ -100,9 +100,9 @@ def deal_str_cards(user_id, seed, users):
 def deal(user_id, seed, users):
 	print(seed.value)
 	min_card = 52 - (52 // (users+1)) * (users+1) 
-	cards = list(range(min_card, 52))
+	cards = list(range(min_card + 1, 52 + 1))
 	hand_length = len(cards) // (users+1)
 
 	random.Random(seed.value).shuffle(cards)
-	return cards[user_id*hand_length:user_id*hand_length+hand_length+1]
+	return cards[user_id*hand_length:user_id*hand_length+hand_length]
 
