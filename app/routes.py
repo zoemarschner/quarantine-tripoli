@@ -58,24 +58,30 @@ def next_round():
 @app.route('/<username>')
 def user(username):
 	user_i = 0
+	ready = None
 	for test_user in User.query.all():
 		if test_user.name == username:
+			ready = test_user.ready
 			break
 		user_i += 1
 	else:
 		abort(404)
 
 	cards = deal_str_cards(user_i, get_seed(), User.query.count())
-	return render_template('user.html', hand=cards, name=username)
+	return render_template('user.html', hand=cards, name=username, ready=ready)
 
 @app.route('/<username>/next', methods = ['POST'])
 def user_next(username):
 	user_obj = User.query.filter(User.name == username).one()
-	user_obj.ready = True
-	db.session.commit()
+	if user_obj.ready:
+		user_obj.ready = False
+		db.session.commit()
+	else:
+		user_obj.ready = True
+		db.session.commit()
 
-	if User.query.filter(User.ready == False).count() == 0:
-		next_round()
+		if User.query.filter(User.ready == False).count() == 0:
+			next_round()
 
 	return redirect(url_for('user', username=username))
 
