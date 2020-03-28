@@ -59,7 +59,7 @@ def next_round():
 def user(username):
 	user_i = 0
 	ready = None
-	for test_user in User.query.all():
+	for test_user in User.query.order_by(User.name):
 		if test_user.name == username:
 			ready = test_user.ready
 			break
