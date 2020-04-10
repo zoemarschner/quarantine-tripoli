@@ -30,9 +30,20 @@ def add_user():
 	name = request.form['name']
 
 	if name != "":
-		new_user = User(name=name, ready=False)
+		new_user = User(name=name, mask=0, ready=False)
 		db.session.add(new_user)
 		db.session.commit()
+
+	return redirect(url_for('admin'))
+
+@app.route('/admin/delete', methods = ['POST'])
+def delete_user():
+	name = request.form['name']
+
+	users = User.query.filter_by(name=name)
+	for user in users:
+		db.session.delete(user)
+	db.session.commit()
 
 	return redirect(url_for('admin'))
 
@@ -59,16 +70,18 @@ def next_round():
 def user(username):
 	user_i = 0
 	ready = None
+	mask = None
 	for test_user in User.query.order_by(User.name):
 		if test_user.name == username:
 			ready = test_user.ready
+			mask = test_user.mask
 			break
 		user_i += 1
 	else:
 		abort(404)
 
 	cards = deal_str_cards(user_i, get_seed(), User.query.count())
-	return render_template('user.html', hand=cards, name=username, ready=ready)
+	return render_template('user.html', hand=cards, name=username, ready=ready, mask='{:b}'.format(mask)[::-1])
 
 @app.route('/<username>/next', methods = ['POST'])
 def user_next(username):
@@ -85,12 +98,30 @@ def user_next(username):
 
 	return redirect(url_for('user', username=username))
 
+@app.route('/<username>/faceup/<i>', methods = ['POST'])
+def user_faceup(username, i):
+	i = int(i)
+	user_obj = User.query.filter(User.name == username).one()
+	user_obj.mask &= ~(1<<i)
+	db.session.commit()
+
+	return ''
+
+@app.route('/<username>/facedown/<i>', methods = ['POST'])
+def user_facedown(username, i):
+	i = int(i)
+	user_obj = User.query.filter(User.name == username).one()
+	user_obj.mask |= 1<<i
+	db.session.commit()
+
+	return ''
+
 
 @app.route('/extra')
 def extra_hand():
 	count = User.query.count()
 	cards = deal_str_cards(count, get_seed(), count)
-	return render_template('extra-hand.html', hand=cards)
+	return render_template('extra-hand.html', hand=cards, mask='{:b}'.format(mask)[::-1])
 
 def deal_str_cards(user_id, seed, users):
 	cards = deal(user_id, seed, users)

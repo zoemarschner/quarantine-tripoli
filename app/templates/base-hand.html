@@ -4,7 +4,10 @@
 {% block user %}{% endblock %}
 <div class=card_container>
 	{% for card in hand %}
-	    <img class=card height="139.61352657px" width="100px" src="{{ url_for('static', filename = card + '.png') }}"/>
+	    <img class=card 
+             height="139.61352657px" width="100px" 
+             src="{{ url_for('static', filename = (card if mask[loop.index0] == '1' else 'back') + '.png') }}"
+             onclick="foo('{{ name }}', {{ loop.index0 }}, {{ mask[loop.index0] }})"/>
 	{% endfor %}
 </div>
 {% endblock %}

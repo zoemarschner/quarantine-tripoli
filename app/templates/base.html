@@ -10,4 +10,11 @@
 			{% block content %}{% endblock %}
 		</div>
 	</body>
+	<script>
+		function foo(name, i, up) {
+			let url = `/${name}/${up ? "faceup" : "facedown"}/${i}`;
+			fetch(url, { method: "POST"})
+			.then(() => { location.reload() })
+		}
+	</script>
 <html>

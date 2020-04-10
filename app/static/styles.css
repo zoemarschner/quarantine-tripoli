@@ -82,6 +82,17 @@
 	border-radius: 13px;
 }
 
+.delete-button {
+	font-weight: bolder;
+	border:none;
+	color:white;
+	background: #ff2010;
+	font-size: 1.2em;
+	padding-bottom: 3;
+	padding-top: 0;
+	border-radius: 13px;
+}
+
 .input {
 	font-family: 'Raleway', sans-serif;
 	font-size: 1em;
