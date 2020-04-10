@@ -6,7 +6,7 @@
 	{% for card in hand %}
 	    <img class=card 
              height="139.61352657px" width="100px" 
-             src="{{ url_for('static', filename = (card if mask[loop.index0] == '1' else 'back') + '.png') }}"
+             src="{{ url_for('static', filename = ('back' if mask[loop.index0] == '1' else card) + '.png') }}"
              onclick="foo('{{ name }}', {{ loop.index0 }}, {{ mask[loop.index0] }})"/>
 	{% endfor %}
 </div>

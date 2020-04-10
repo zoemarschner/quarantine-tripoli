@@ -1,4 +1,5 @@
 from flask import render_template, redirect, url_for, request, abort
+from sqlalchemy.orm.exc import NoResultFound
 from app import app, db
 from app.models import User, Setting
 import random
@@ -57,11 +58,24 @@ def admin_next():
 
 def next_round():
 	new_seed = random.randint(1, 10**5)
-	seed = get_seed()
-	seed.value = new_seed
+
+	try:
+		seed = get_seed()
+		seed.value = new_seed
+	except NoResultFound:
+		seed = Setting(name='seed', value=new_seed)
+		db.session.add(seed)
 
 	for user in User.query.all():
 		user.ready = False
+		user.mask = 0
+
+	try:
+		extra_mask = Setting.query.filter(Setting.name=='extra_mask').one()
+		extra_mask.value = 0
+	except NoResultFound:
+		extra_mask = Setting(name='extra_mask', value=0)
+		db.session.add(extra_mask)
 
 	db.session.commit()
 
@@ -104,7 +118,6 @@ def user_faceup(username, i):
 	user_obj = User.query.filter(User.name == username).one()
 	user_obj.mask &= ~(1<<i)
 	db.session.commit()
-
 	return ''
 
 @app.route('/<username>/facedown/<i>', methods = ['POST'])
@@ -113,7 +126,22 @@ def user_facedown(username, i):
 	user_obj = User.query.filter(User.name == username).one()
 	user_obj.mask |= 1<<i
 	db.session.commit()
+	return ''
 
+@app.route('/extra/faceup/<i>', methods = ['POST'])
+def extra_faceup(i):
+	i = int(i)
+	extra_mask = Setting.query.filter(Setting.name=='extra_mask').one()
+	extra_mask.value &= ~(1<<i)
+	db.session.commit()
+	return ''
+
+@app.route('/extra/facedown/<i>', methods = ['POST'])
+def extra_facedown(i):
+	i = int(i)
+	extra_mask = Setting.query.filter(Setting.name=='extra_mask').one()
+	extra_mask.value |= 1<<i
+	db.session.commit()
 	return ''
 
 
@@ -121,7 +149,8 @@ def user_facedown(username, i):
 def extra_hand():
 	count = User.query.count()
 	cards = deal_str_cards(count, get_seed(), count)
-	return render_template('extra-hand.html', hand=cards, mask='{:b}'.format(mask)[::-1])
+	mask = Setting.query.filter(Setting.name=='extra_mask').one().value
+	return render_template('extra-hand.html', name='extra', hand=cards, mask='{:b}'.format(mask)[::-1])
 
 def deal_str_cards(user_id, seed, users):
 	cards = deal(user_id, seed, users)
