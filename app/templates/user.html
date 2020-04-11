@@ -4,9 +4,9 @@
 <h2 class=sub-header>{{ name + "'s Hand" }}</h2>
 <form action={{ "/" + name + "/next" }} method="post">
 	{% if ready %}
-    	<input class="button green" type="submit" value="ready">
+    	<input class="button green" type="submit" value="waiting for next hand">
     {% else %}
-    	<input class="button red" type="submit" value="not ready">
+    	<input class="button red" type="submit" value="ready for next hand">
     {% endif %}
 </form>
 <a class="button red extra" href="/extra"> Extra Hand</a>
