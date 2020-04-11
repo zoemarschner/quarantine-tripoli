@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request, abort
+from flask import render_template, redirect, url_for, request, abort, jsonify
 from sqlalchemy.orm.exc import NoResultFound
 from app import app, db
 from app.models import User, Setting
@@ -47,6 +47,16 @@ def delete_user():
 	db.session.commit()
 
 	return redirect(url_for('admin'))
+
+@app.route('/admin/user/<name>', methods = ['DELETE'])
+def user_delete(name):
+
+	users = User.query.filter_by(name=name)
+	for user in users:
+		db.session.delete(user)
+	db.session.commit()
+
+	return ''
 
 
 @app.route('/admin/next', methods = ['POST'])
@@ -111,6 +121,14 @@ def user_next(username):
 			next_round()
 
 	return redirect(url_for('user', username=username))
+
+@app.route('/<username>/ready', methods = ['GET'])
+def user_ready(username):
+	users = User.query.filter_by(name=username)
+	ready = True;
+	for user in users:
+		ready = ready and user.ready
+	return jsonify(ready=ready)
 
 @app.route('/<username>/faceup/<i>', methods = ['POST'])
 def user_faceup(username, i):

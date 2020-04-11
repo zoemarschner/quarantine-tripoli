@@ -40,33 +40,32 @@
 .users {
 	background: #d6d6d6;
 	width: 80vw;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+	display: block;
+	/*flex-direction: column;*/
+	/*align-items: center;*/
 	border-radius: 20px;
 }
-.users > p {
-	margin: 0;
-	padding: 10px 0px 0px 0px;
-}
 
-.names > p {
-	margin: 0;
-	padding: 10px 0px 0px 0px;
-	font-size: 1.5em;
+.users > p {
 	text-align: center;
 	font-family: 'Raleway', sans-serif;
+}
+
+.users > p.name {
+	margin: 10px 0px 10px 0px;
+	font-size: 1.5em;
 	font-weight: bolder;
 }
 
-.names > p:last-child {
-	margin: 0;
-	padding: 10px 0px 10px 0px;
-
+.users > p.name > .deleter {
+	font-size: 50%;
+	font-weight: lighter;
+	text-decoration: none;
+	color: #666;
 }
 
-.users-header {
-	font-family: 'Raleway', sans-serif;
+p.users-header {
+	margin: 20px 0px 20px 0px;
 	font-weight: lighter;
 	text-transform: uppercase;
 }
@@ -86,7 +85,7 @@
 	font-weight: bolder;
 	border:none;
 	color:white;
-	background: #ff2010;
+	background: #cc0202;
 	font-size: 1.2em;
 	padding-bottom: 3;
 	padding-top: 0;
@@ -96,10 +95,11 @@
 .input {
 	font-family: 'Raleway', sans-serif;
 	font-size: 1em;
-	margin-right: 20px;
+	margin-right: 10px;
 }
 
 .form {
+	margin: 20px 0px 20px 0px;
 	display: flex;
 	justify-content: center;
 }

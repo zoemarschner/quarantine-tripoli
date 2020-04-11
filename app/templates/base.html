@@ -11,10 +11,30 @@
 		</div>
 	</body>
 	<script>
-		function foo(name, i, up) {
+		function flip_card(name, i, up) {
 			let url = `/${name}/${up ? "faceup" : "facedown"}/${i}`;
 			fetch(url, { method: "POST"})
-			.then(() => { location.reload() })
+			.then(() => { window.location.href = window.location.href });
 		}
+		function del_user(event, name) {
+			let url = `/admin/user/${name}`;
+			fetch(url, { method: "DELETE"})
+			.then(() => { window.location.href = window.location.href });
+			event.preventDefault();
+		}
+		{% if ready %}
+			window.onload = function () {
+				window.setInterval(function () {
+					let url = '/{{ name }}/ready';
+					fetch(url)
+					.then(response => response.json())
+					.then(data => {
+						if (!data.ready)
+							window.location.reload();
+					})
+					.catch(err => console.log('err', err));
+				}, 1000)
+			}
+		{% endif %}
 	</script>
 <html>
