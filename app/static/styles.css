@@ -46,6 +46,11 @@
 	border-radius: 20px;
 }
 
+.users > p.name > a {
+	color: inherit;
+	text-decoration: none;
+}
+
 .users > p {
 	text-align: center;
 	font-family: 'Raleway', sans-serif;
