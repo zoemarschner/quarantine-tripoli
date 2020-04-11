@@ -170,10 +170,14 @@ def extra_hand():
 	mask = Setting.query.filter(Setting.name=='extra_mask').one().value
 	return render_template('extra-hand.html', name='extra', hand=cards, mask='{:b}'.format(mask)[::-1])
 
+# sort key function that makes '01' come after '13'
+def ace_high_key(card_str):
+	return card_str[0] + '{:02d}'.format((int(card_str[1:]) - 2) % 13)
+
 def deal_str_cards(user_id, seed, users):
 	cards = deal(user_id, seed, users)
 	all_cards = full_deck()
-	return [all_cards[i] for i in cards]
+	return sorted([all_cards[i] for i in cards], key=ace_high_key)
 
 def deal(user_id, seed, users):
 	print(seed.value)
